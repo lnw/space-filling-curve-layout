@@ -32,7 +32,5 @@ constexpr uint16_t hilbert8(uint8_t x, uint8_t y) noexcept {
   state = S[state][bits6];
   uint16_t bits7 = ((y & 0x01) >> 0) | ((x & 0x01) << 1);
   res |= R[state][bits7] << 0;
-  // state = S[state][bits7];
-
   return res;
 }

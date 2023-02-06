@@ -8,13 +8,17 @@
 
 namespace stx = std::experimental;
 
+template <size_t BlockSize>
 struct layout_morton {
   template <class Extents>
   class mapping;
 };
 
+template <size_t BlockSize>
+requires (BlockSize == 8 || BlockSize == 16)
 template <class Extents>
-requires(Extents::rank() == 2) class layout_morton::mapping {
+requires(Extents::rank() == 2) && (Extents().template __extent<0>() % (1<<BlockSize) == 0) && (Extents().template __extent<1>() % (1<<BlockSize) == 0)
+class layout_morton<BlockSize>::mapping {
 public:
   using extents_type = Extents;
   using index_type = typename extents_type::index_type;
@@ -53,8 +57,13 @@ public:
     return __extents;
   }
 
-  constexpr index_type operator()(uint8_t x, uint8_t y) const noexcept {
-    return morton8(x, y);
+  constexpr index_type operator()(index_type x, index_type y) const noexcept {
+    index_type bs = (1<<BlockSize);
+    index_type block_x = x / bs;
+    index_type block_y = y / bs;
+    index_type remainder_x = x - bs * block_x;
+    index_type remainder_y = y - bs * block_y;
+    return (block_y * __extents.template __extent<0>() / bs + block_x) * (1 << 16) + morton8(remainder_x, remainder_y);
   }
 
   static constexpr bool is_always_unique() noexcept { return true; }
