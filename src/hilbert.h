@@ -34,3 +34,11 @@ constexpr uint16_t hilbert8(uint8_t x, uint8_t y) noexcept {
   res |= R[state][bits7] << 0;
   return res;
 }
+
+
+template <int B>
+constexpr size_t hilbert(size_t x, size_t y) noexcept;
+
+template <> constexpr size_t hilbert<8>(size_t x, size_t y) noexcept {
+  return hilbert8(x, y);
+}

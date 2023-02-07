@@ -63,7 +63,7 @@ public:
     index_type block_y = y / bs;
     index_type remainder_x = x - bs * block_x;
     index_type remainder_y = y - bs * block_y;
-    return (block_y * __extents.template __extent<0>() / bs + block_x) * (1 << 16) + morton8(remainder_x, remainder_y);
+    return (block_y * __extents.template __extent<0>() / bs + block_x) * (bs*bs) + morton<BlockSize>(remainder_x, remainder_y);
   }
 
   static constexpr bool is_always_unique() noexcept { return true; }

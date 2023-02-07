@@ -17,7 +17,7 @@ struct layout_hilbert {
 template <size_t BlockSize>
 requires (BlockSize == 8) // FIXME, extend ...
 template <class Extents>
-requires(Extents::rank() == 2) && (Extents().template __extent<0>() % 256 == 0) && (Extents().template __extent<1>() % 256 == 0)
+requires(Extents::rank() == 2) && (Extents().template __extent<0>() % (1<<BlockSize) == 0) && (Extents().template __extent<1>() % (1<<BlockSize) == 0)
 class layout_hilbert<BlockSize>::mapping {
 public:
   using extents_type = Extents;
@@ -64,7 +64,7 @@ public:
     index_type block_y = y / bs;
     index_type remainder_x = x - bs * block_x;
     index_type remainder_y = y - bs * block_y;
-    return (block_y * __extents.template __extent<0>() / bs + block_x) * (1 << 16) + hilbert8(remainder_x, remainder_y);
+    return (block_y * __extents.template __extent<0>() / bs + block_x) * (bs*bs) + hilbert<BlockSize>(remainder_x, remainder_y);
   }
 
   static constexpr bool is_always_unique() noexcept { return true; }
