@@ -18,3 +18,16 @@ add_executable(sfc-example
 target_include_directories(sfc-example PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 target_compile_options(sfc-example PRIVATE "$<$<CONFIG:DEBUG>:-Wall;-Wshadow;-Wpedantic>")
 target_compile_options(sfc-example PRIVATE "$<$<CONFIG:RELEASE>:-march=native>")
+
+
+set(BENCHMARK_USE_BUNDLED_GTEST false)
+set(BENCHMARK_ENABLE_GTEST_TESTS false)
+add_subdirectory(benchmark)
+
+add_executable(sfc-benchmark
+               benchmark_src/example.cpp
+              )
+target_compile_options(sfc-benchmark PRIVATE "$<$<CONFIG:RELEASE>:-march=native>")
+target_include_directories(sfc-benchmark PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(sfc-benchmark PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/benchmark/include)
+target_link_libraries(sfc-benchmark benchmark::benchmark)
