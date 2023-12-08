@@ -46,6 +46,7 @@ IndentCaseLabels: false
 IndentFunctionDeclarationAfterType: false
 IndentWidth:     2
 IndentWrappedFunctionNames: false
+IndentRequiresClause: false
 KeepEmptyLinesAtTheStartOfBlocks: true
 MaxEmptyLinesToKeep: 2
 NamespaceIndentation: None
@@ -58,6 +59,7 @@ PenaltyBreakString: 1000
 PenaltyExcessCharacter: 1000000
 PenaltyReturnTypeOnItsOwnLine: 60
 PointerAlignment: Left
+RequiresClausePosition: OwnLine
 SpaceBeforeAssignmentOperators: true
 SpaceBeforeParens: ControlStatements
 
@@ -72,7 +74,7 @@ SpacesInCStyleCastParentheses: false
 SpacesInContainerLiterals: true
 SpacesInParentheses: false
 Language: Cpp
-Standard: C++11
+# Standard: C++11
 # Standard: c++17
 TabWidth: 4
 UseTab: Never

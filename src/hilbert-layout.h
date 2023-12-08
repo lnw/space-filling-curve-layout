@@ -9,15 +9,17 @@
 namespace stx = std::experimental;
 
 template <size_t BlockSize>
-struct layout_hilbert {
+requires(BlockSize == 8)
+class layout_hilbert {
+public:
   template <class Extents>
   class mapping;
 };
 
 template <size_t BlockSize>
-requires (BlockSize == 8) // FIXME, extend ...
+requires(BlockSize == 8) // FIXME, extend ...
 template <class Extents>
-requires(Extents::rank() == 2) && (Extents().template __extent<0>() % (1<<BlockSize) == 0) && (Extents().template __extent<1>() % (1<<BlockSize) == 0)
+requires(Extents::rank() == 2) && (Extents().template __extent<0>() % (1 << BlockSize) == 0) && (Extents().template __extent<1>() % (1 << BlockSize) == 0)
 class layout_hilbert<BlockSize>::mapping {
 public:
   using extents_type = Extents;
@@ -59,12 +61,12 @@ public:
 
   // blocks of 8-bit x 8bit, each with its own hilbert curve layout
   constexpr index_type operator()(index_type x, index_type y) const noexcept {
-    index_type bs = (1<<BlockSize);
+    index_type bs = (1 << BlockSize);
     index_type block_x = x / bs;
     index_type block_y = y / bs;
     index_type remainder_x = x - bs * block_x;
     index_type remainder_y = y - bs * block_y;
-    return (block_y * __extents.template __extent<0>() / bs + block_x) * (bs*bs) + hilbert<BlockSize>(remainder_x, remainder_y);
+    return (block_y * __extents.template __extent<0>() / bs + block_x) * (bs * bs) + hilbert<BlockSize>(remainder_x, remainder_y);
   }
 
   static constexpr bool is_always_unique() noexcept { return true; }

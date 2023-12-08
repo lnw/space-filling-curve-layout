@@ -36,9 +36,11 @@ constexpr uint32_t morton16(uint16_t x_in, uint16_t y_in) noexcept {
 template <int B>
 constexpr size_t morton(size_t x, size_t y) noexcept;
 
-template <> constexpr size_t morton<8>(size_t x, size_t y) noexcept {
+template <>
+constexpr size_t morton<8>(size_t x, size_t y) noexcept {
   return morton8(x, y);
 }
-template <> constexpr size_t morton<16>(size_t x, size_t y) noexcept {
+template <>
+constexpr size_t morton<16>(size_t x, size_t y) noexcept {
   return morton16(x, y);
 }

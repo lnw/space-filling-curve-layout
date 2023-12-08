@@ -7,12 +7,12 @@ namespace stx = std::experimental;
 
 int main() {
 
-  std::array<int, 256*256*2> d;
+  std::array<int, 256 * 256 * 2> d;
   std::iota(d.begin(), d.end(), 0);
 
   stx::mdspan<int, stx::extents<uint64_t, 256, 512>, layout_hilbert<8>> mh{d.data()};
   stx::mdspan<int, stx::extents<uint64_t, 512, 256>, layout_morton<8>> mm{d.data()};
-  static_assert(mh.rank()==2,"Rank is two");
+  static_assert(mh.rank() == 2, "Rank is two");
   // stx::mdspan<int, stx::extents<uint64_t, 3, 3>, stx::layout_left> ml{d.data()};
   // stx::mdspan<int, stx::extents<uint64_t, 3, 3>, stx::layout_right> mr{d.data()};
 
@@ -30,5 +30,4 @@ int main() {
     }
     std::cout << std::endl;
   }
-
 }
