@@ -1,7 +1,8 @@
-#include <iostream>
-
 #include "src/hilbert-layout.h"
 #include "src/morton-layout.h"
+#include <algorithm>
+#include <iostream>
+#include <numeric>
 
 namespace stx = std::experimental;
 

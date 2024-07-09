@@ -3,10 +3,7 @@
 #pragma once
 
 #include "mdspan/include/experimental/mdspan"
-
 #include "src/morton.h"
-
-namespace stx = std::experimental;
 
 template <size_t BlockSize>
 requires(BlockSize == 8 || BlockSize == 16)
@@ -19,7 +16,7 @@ public:
 template <size_t BlockSize>
 requires(BlockSize == 8 || BlockSize == 16)
 template <class Extents>
-requires(Extents::rank() == 2) && (Extents().template __extent<0>() % (1 << BlockSize) == 0) && (Extents().template __extent<1>() % (1 << BlockSize) == 0)
+requires(Extents::rank() == 2) && (Extents().extent(0) % (1 << BlockSize) == 0) && (Extents().extent(1) % (1 << BlockSize) == 0)
 class layout_morton<BlockSize>::mapping {
 public:
   using extents_type = Extents;
@@ -29,7 +26,7 @@ public:
   using layout_type = layout_morton;
 
 private:
-  static_assert(stx::detail::__is_extents_v<extents_type>, "std::experimental::layout_morton::mapping must be instantiated with a specialization of std::experimental::extents.");
+  static_assert(std::detail::__is_extents_v<extents_type>, "std::experimental::layout_morton::mapping must be instantiated with a specialization of std::experimental::extents.");
 
   template <class>
   friend class mapping;
@@ -65,7 +62,7 @@ public:
     index_type block_y = y / bs;
     index_type remainder_x = x - bs * block_x;
     index_type remainder_y = y - bs * block_y;
-    return (block_y * __extents.template __extent<0>() / bs + block_x) * (bs * bs) + morton<BlockSize>(remainder_x, remainder_y);
+    return (block_y * __extents.extent(0) / bs + block_x) * (bs * bs) + morton<BlockSize>(remainder_x, remainder_y);
   }
 
   static constexpr bool is_always_unique() noexcept { return true; }
