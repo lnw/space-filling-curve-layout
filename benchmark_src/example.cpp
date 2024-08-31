@@ -1,6 +1,5 @@
 #include "benchmark/benchmark.h"
 
-// #include <chrono>
 #include <random>
 
 #include "src/hilbert.h"
